@@ -1,0 +1,6 @@
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: linear-gradient(140deg, #e8f0fe 0%, #f0f9ff 100%);
+  min-height: 100vh;
+  color: #111827;
+}
