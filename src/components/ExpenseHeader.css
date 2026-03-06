@@ -1,0 +1,25 @@
+.expense-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E2E8F0;
+    
+}
+.expense-header__title {
+  font-size:     20px;
+  font-weight:   800;
+  color:         #0F172A;
+  letter-spacing: -0.3px;
+}
+.expense-header__btn {
+  background:    linear-gradient(135deg, #2563EB, #3B82F6);
+  color:         #ffffff;
+  border:        none;
+  padding:       10px 22px;
+  border-radius: 10px;
+  font-size:     14px;
+  font-weight:   600;
+  cursor:        pointer;
+}

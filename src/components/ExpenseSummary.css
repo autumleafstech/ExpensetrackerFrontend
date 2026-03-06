@@ -1,0 +1,32 @@
+.expense-summary{
+  width:           95%;
+  margin:          20px auto 0;
+  background:      #ffffff;
+  border-radius:   14px;
+  padding:         20px 28px;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+
+}
+.expense-summary__left {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+}
+.expense-summary__label {
+  font-size:      12px;
+  font-weight:    600;
+  color:          #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.expense-summary__amount {
+  font-size:      28px;
+  font-weight:    800;
+  color:          #0F172A;
+  letter-spacing: -0.5px;
+}
+.expense-summary__search {
+  width: 260px !important;
+}

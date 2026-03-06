@@ -1,0 +1,51 @@
+.expense-table__paper {
+  width:         95% !important;
+  margin:        20px auto 40px !important;
+  border-radius: 16px !important;
+  overflow:      hidden !important;
+}
+.expense-table__head-row {
+  background: #1D4ED8 ;
+}
+.expense-table__head-cell {
+  color:          rgba(255, 255, 255, 0.92) !important;
+  font-weight:    700 !important;
+  font-size:      11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  white-space:    nowrap !important;
+  padding:        14px 18px !important;
+}
+.expense-table__row {
+  border-left: 3px solid transparent;
+ 
+}
+.expense-table__row:hover {
+  background-color: #EFF6FF;
+  border-left-color: #3B82F6;
+}
+.expense-table__cell {
+ font-family:    'DM Sans', sans-serif !important;
+  font-size:      13.5px !important;
+  color:          #334155 !important;
+  letter-spacing: 0.01em !important;
+  padding:        13px 18px !important;
+  border-bottom:  1px solid #F1F5F9 !important;
+}
+.expense-table__del-btn {
+  background-color: #FEE2E2 !important;
+  width:  32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+}
+.expense-table__del-btn:hover {
+  background-color: #FCA5A5 !important;
+}
+ 
+.expense-table__del-icon {
+  color: #DC2626 !important;
+}
+.expense-table__pagination {
+  border-top: 1px solid #E2E8F0 !important;
+}
+
