@@ -1,159 +1,117 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  MenuItem,
-  Box,
-  IconButton
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-
-const categories = [
-  "Food & Beverage",
-  "Utilities",
-  "Maintenance",
-  "Marketing",
-  "Housekeeping"
+  Dialog, DialogTitle, DialogContent,
+  DialogActions, Button, TextField, MenuItem, IconButton
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import './AddExpenseModal.css';
+ 
+const CATEGORIES = [
+  'Food & Beverage', 'Utilities',
+  'Maintenance', 'Marketing', 'Housekeeping',
 ];
-
-const AddExpenseModal = ({ open, handleClose, handleAdd }) => {
-  const [formData, setFormData] = useState({
-    category: "",
-    vendor: "",
-    amount: "",
-    date: "",
-    description: ""
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
+ 
+const EMPTY = {
+  category:'', vendor:'', amount:'', date:'', description:''
+};
+ 
+const AddExpenseModal = ({ open, handleClose, onAdd }) => {
+  const [formData, setFormData] = useState(EMPTY);
+  const [error,    setError   ] = useState('');
+ 
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+ 
+  const reset = () => { setFormData(EMPTY); setError(''); };
+ 
   const handleSubmit = async () => {
-    try{
-           const response = await axios.post(" http://localhost:3000/addexpenses",formData) ;
-           console.log(response);
-           handleClose();
+    const { category, vendor, amount, date } = formData;
+    if (!category || !vendor || !amount || !date) {
+      setError('Please fill in all required fields.');
+      return;
     }
-    catch(err) {
- console.log("Error while adding expesne:",err)
+    try {
+      await axios.post('http://localhost:3000/api/addexpenses', formData);
+      reset();
+      if (onAdd) onAdd();
+    } catch (err) {
+      console.error('Error adding expense:', err);
+      setError('Failed to add expense. Please try again.');
     }
   };
-
+ 
+  const handleCloseReset = () => { reset(); handleClose(); };
+ 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ fontWeight: 600 }}>
+    <Dialog
+      open={open}
+      onClose={handleCloseReset}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{ className: 'add-modal__paper' }}
+    >
+      <DialogTitle className="add-modal__title">
         Add New Expense
-        <IconButton
-          onClick={handleClose}
-          sx={{ position: "absolute", right: 10, top: 10 }}
-        >
-          <CloseIcon />
+        <IconButton onClick={handleCloseReset} className="add-modal__close">
+          <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
-
-      <DialogContent>
-
-       
-        <Box
-          sx={{
-            display: "flex",
-            gap: 3,
-            mb: 3,
-            flexWrap: "wrap"
-          }}
-        >
+ 
+      <DialogContent className="add-modal__content">
+        {error && <p className="add-modal__error">{error}</p>}
+ 
+        <div className="add-modal__row">
           <TextField
-            select
-            label="Category *"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            sx={{ flex: 1, minWidth: 250 }}
+            select label="Category *" name="category"
+            value={formData.category} onChange={handleChange}
+            className="add-modal__field"
           >
-            {categories.map((cat) => (
-              <MenuItem key={cat} value={cat}>
-                {cat}
-              </MenuItem>
+            {CATEGORIES.map((c) => (
+              <MenuItem key={c} value={c}>{c}</MenuItem>
             ))}
           </TextField>
-
           <TextField
-            label="Vendor Name *"
-            name="vendor"
-            value={formData.vendor}
-            onChange={handleChange}
-            sx={{ flex: 1, minWidth: 250 }}
+            label="Vendor Name *" name="vendor"
+            value={formData.vendor} onChange={handleChange}
+            className="add-modal__field"
           />
-        </Box>
-
-     
-        <Box
-          sx={{
-            display: "flex",
-            gap: 3,
-            mb: 3,
-            flexWrap: "wrap"
-          }}
-        >
+        </div>
+ 
+        <div className="add-modal__row">
           <TextField
-            label="Amount (₹) *"
-            name="amount"
-            type="number"
-            value={formData.amount}
-            onChange={handleChange}
-            sx={{ flex: 1, minWidth: 250 }}
+            label="Amount (rupee) *" name="amount" type="number"
+            value={formData.amount} onChange={handleChange}
+            className="add-modal__field"
           />
-
           <TextField
-            label="Date *"
-            name="date"
-            type="date"
+            label="Date *" name="date" type="date"
             InputLabelProps={{ shrink: true }}
-            value={formData.date}
-            onChange={handleChange}
-            sx={{ flex: 1, minWidth: 250 }}
+            value={formData.date} onChange={handleChange}
+            className="add-modal__field"
           />
-        </Box>
-
-        
+        </div>
+ 
         <TextField
-          fullWidth
-          label="Description"
-          name="description"
-          multiline
-          rows={4}
-          value={formData.description}
-          onChange={handleChange}
+          fullWidth label="Description" name="description"
+          multiline rows={4}
+          value={formData.description} onChange={handleChange}
         />
-      </DialogContent>
-
-      <DialogActions sx={{ p: 3 }}>
-        <Button variant="outlined" onClick={handleClose}>
+</DialogContent>
+ 
+      <DialogActions className="add-modal__actions">
+        <Button variant="outlined" onClick={handleCloseReset}
+          className="add-modal__btn-cancel">
           Cancel
         </Button>
-
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          sx={{
-            backgroundColor: "#3B82F6",
-            "&:hover": { backgroundColor: "#2563EB" }
-          }}
-        >
+        <Button variant="contained" onClick={handleSubmit}
+          className="add-modal__btn-save">
           Add Expense
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-
+ 
 export default AddExpenseModal;
+
